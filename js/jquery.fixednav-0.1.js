@@ -20,7 +20,9 @@
 				var curEl = $(el);
 				var clone = curEl.clone();
 				
+				clone.children().hide();
 				clone.hide();
+				
 				curEl.before(clone);
 			});
 		},
