@@ -6,9 +6,27 @@ fixedNav
 2012 by [Christian Doebler](http://www.christian-doebler.net/)
 
 
-#### Example
+#### Examples
 
 <pre>
 $(".navigation").fixedNav();
 </pre>
 
+<pre>
+$(".navigation")
+    .fixedNav()
+    .bind("relative", function() {
+        console.log("relative");
+    })
+    .bind("fixed", function() {
+        console.log("fixed");
+    });
+</pre>
+
+
+#### Events
+
+<pre>
+relative : fired, when css position is set to relative (navigation moves on scrolling)
+fixed    : fired, when css position is set to fixed (navigation fixated)
+</pre>

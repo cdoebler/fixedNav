@@ -14,6 +14,7 @@
 	var methods = {
 		navEl : false,
 		navTop : false,
+		prevCssPos: false,
 		
 		cloneNavEl : function() {
 			$.each(methods.navEl, function(offset, el) {
@@ -30,14 +31,15 @@
 		toggleNavMode : function() {
 			var winTop = $(window).scrollTop();
 			var navEl = methods.navEl;
+			var cssPos = navEl.css("position");
 
 			if (winTop > methods.navTop) { 
 				navEl.prev().show();
 				
 				navEl.css({
 					"position": "fixed",
-					"top": 0,
-					"left": 0
+					"top": 0
+					/* "left": 0 */
 				});
 				
 			} else {
@@ -47,12 +49,18 @@
 					"position": "relative"
 				}); 
 			}
+			
+			if (cssPos != methods.prevCssPos) {
+				navEl.trigger(cssPos);
+				methods.prevCssPos = cssPos;
+			}
 		}
 	}
 	
 	$.fn.fixedNav = function() {
 		methods.navEl = $(this);
 		methods.navTop = methods.navEl.offset().top + 2;
+		methods.prevCssPos = methods.navEl.css("position");
 
 		methods.cloneNavEl();
 		methods.toggleNavMode();
