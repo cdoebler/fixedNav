@@ -31,7 +31,6 @@
 		toggleNavMode : function() {
 			var winTop = $(window).scrollTop();
 			var navEl = methods.navEl;
-			var cssPos = navEl.css("position");
 
 			if (winTop > methods.navTop) { 
 				navEl.prev().show();
@@ -49,6 +48,8 @@
 					"position": "relative"
 				}); 
 			}
+			
+			var cssPos = navEl.css("position");
 			
 			if (cssPos != methods.prevCssPos) {
 				navEl.trigger(cssPos);
