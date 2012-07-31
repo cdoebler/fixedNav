@@ -13,8 +13,16 @@
 (function($){
 	var methods = {
 		navEl : false,
+        navCloneEl : false,
 		navTop : false,
 		prevCssPos: false,
+        
+        /**
+         * determines top offset of cloned navigation el and stores it
+         */ 
+        setNavTop : function() {
+            methods.navTop = methods.navCloneEl.offset().top + 2;
+        },
 		
 		cloneNavEl : function() {
 			$.each(methods.navEl, function(offset, el) {
@@ -25,6 +33,10 @@
 				clone.hide();
 				
 				curEl.before(clone);
+                
+                methods.navCloneEl = clone;
+                
+                methods.navTop = methods.navEl.offset().top + 2;
 			});
 		},
 		
@@ -60,7 +72,6 @@
 	
 	$.fn.fixedNav = function() {
 		methods.navEl = $(this);
-		methods.navTop = methods.navEl.offset().top + 2;
 		methods.prevCssPos = methods.navEl.css("position");
 
 		methods.cloneNavEl();
@@ -69,6 +80,15 @@
 		$(window).scroll(function() {
 			methods.toggleNavMode();
 		});
+        
+        $(window).resize(function() {
+            /*
+             * recalculate top offset of navigation just in case visibility of
+             * elements above the fixed navigation is toggled (which would modify
+             * the calculated position of the navigation element)
+             */
+            methods.setNavTop();
+        });
 		
 		return this.each(function() {        
 			var $this = $(this);
