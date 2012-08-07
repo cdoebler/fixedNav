@@ -21,7 +21,9 @@
          * determines top offset of cloned navigation el and stores it
          */ 
         setNavTop : function() {
-            methods.navTop = methods.navCloneEl.offset().top + 2;
+            if (methods.navCloneEl) {
+                methods.navTop = methods.navCloneEl.offset().top + 2;
+            }
         },
 		
 		cloneNavEl : function() {
@@ -54,7 +56,9 @@
 				});
 				
 			} else {
-				navEl.prev().hide();
+                if (methods.navCloneEl) {
+        			navEl.prev().hide();
+                }
 				
 				navEl.css({
 					"position": "relative"
