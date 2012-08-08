@@ -14,6 +14,7 @@
 	var methods = {
 		navEl : false,
         navCloneEl : false,
+        navClonePrevEl : false,
 		navTop : false,
 		prevCssPos: false,
         
@@ -22,7 +23,8 @@
          */ 
         setNavTop : function() {
             if (methods.navCloneEl) {
-                methods.navTop = methods.navCloneEl.offset().top + 2;
+                methods.navTop = methods.navClonePrevEl.offset().top + 
+                                    methods.navClonePrevEl.height() + 2;
             }
         },
 		
@@ -38,6 +40,15 @@
                 
                 methods.navCloneEl = clone;
                 
+                /*
+                 * try to determine element right before clone since it is 
+                 * more safe to get offset from here
+                 */
+                methods.navClonePrevEl = methods.navCloneEl.prev(":first");
+                if (!methods.navClonePrevEl.length) {
+                    methods.navClonePrevEl = methods.navCloneEl;
+                }
+                
                 methods.navTop = methods.navEl.offset().top + 2;
 			});
 		},
@@ -46,7 +57,7 @@
 			var winTop = $(window).scrollTop();
 			var navEl = methods.navEl;
 
-			if (winTop > methods.navTop) { 
+			if (winTop > methods.navTop && methods.navTop > 0) { 
 				navEl.prev().show();
 				
 				navEl.css({
